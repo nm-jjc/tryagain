@@ -1,0 +1,70 @@
+#!/bin/bash
+
+#Organizes system information.
+separator="////////////////////////////////////////////////////////"
+
+
+echo $separator >> sysinfo
+echo $separator >> sysinfo
+#Get the hostname
+echo "This is the hostname." >> sysinfo
+hostname >> sysinfo
+echo $separator >> sysinfo
+echo $separator >> sysinfo
+
+
+#Get operating system
+echo "This is the operating system." >> sysinfo
+os=$(cat /etc/*release | grep "PRETTY_NAME" | cut -d '=' -f 2 | tr -d '"')
+$os >> sysinfo
+echo $separator >> sysinfo
+echo $separator >> sysinfo
+
+
+#Get uptime
+uptime=$(uptime -p)
+echo "This is the uptime." >> sysinfo
+$uptime >> sysinfo
+echo $separator >> sysinfo
+echo $separator >> sysinfo
+
+
+#Get kernel version
+echo "This is the Linux kernel version." >> sysinfo
+kernel_version=$(uname -r)
+$kernel_version >> sysinfo
+echo $separator >> sysinfo
+echo $separator >> sysinfo
+
+
+#Get CPU information
+echo "This is the CPU information." >> sysinfo
+lscpu >> sysinfo
+echo $separator >> sysinfo
+echo $separator >> sysinfo
+
+#Get memory information
+echo "This is the memory information." >> sysinfo
+memory_info=$(free -h)
+$memory_info >> sysinfo
+echo $separator >> sysinfo
+echo $separator >> sysinfo
+
+#Get IP information
+echo "This is the IP information." >> sysinfo
+ip addr >> sysinfo.txt
+echo $separator >> sysinfo
+echo $separator >> sysinfo
+
+#Get filesystem 
+echo "This is the filesystem." >> sysinfo
+filesystem_usage=$(df -h)
+$filesystem_usage >> sysinfo
+echo $separator >> sysinfo
+echo $separator >> sysinfo
+
+#Get the last five lines of general log file containing "error" (case-insensitive)
+error_logs=$(grep -i "error" /var/log/syslog | tail -n 5)
+$error_logs >> sysinfo
+
+echo "System information is saved to sysinfo."
